@@ -1,0 +1,14 @@
+
+Design Plan- P3
+Due 3.12.25 11:59PM
+
+after reading the specifications, start populating a list of things
+you think you might have to do to finish this project.
+
+3.10.25 to do list
+understand the specifications.
+start coding
+complete three routing approaches
+create test methods to check if they work
+chat GPT how to write a code to time the runtime
+get extra credit
