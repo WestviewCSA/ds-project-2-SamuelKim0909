@@ -12,7 +12,7 @@ public class p2 {
 	}
 	
 	public static void readMap(String filename) {
-		
+			
 		try {
 			File file = new File(filename);
 			Scanner scanner = new Scanner(file);
@@ -20,7 +20,7 @@ public class p2 {
 			int numRows = scanner.nextInt();
 			int numCols = scanner.nextInt();
 			int numRooms = scanner.nextInt();
-			
+			Map map = new Map(new Tile[numRows][numCols][numRooms]);
 			int rowIndex = 0;
 			int aRow=0;
 			int aCol=0;
@@ -30,21 +30,30 @@ public class p2 {
 					for(int i = 0; i<numCols && i< row.length(); i++) {
 						char el = row.charAt(i);
 						Tile obj = new Tile(rowIndex, i, el);
+						//obj = map[rowIndex][i][1];
 						System.out.println(el);
 						if(obj.getType()=='W') {
 							aRow= obj.getRow();
 							aCol = obj.getCol();
-							
+							Tile W = new Tile(aRow, aCol, 'W');
 						}
-						rowIndex++;
+						if(obj.getType()=='$') {
+							aRow= obj.getRow();
+							aCol = obj.getCol();
+							Tile $ = new Tile(aRow, aCol, '$');
+						}
+						
 					}
-					
+					rowIndex++;
 				}
 			}
 			System.out.println(aRow+ " "+ aCol);
+			scanner.close();
 		} catch (FileNotFoundException e) {
 			System.out.println(e);
 		}
+	
+		
 		
 		
 		
