@@ -6,7 +6,8 @@ import java.util.Scanner;
 public class p2 {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		System.out.println("p2");
+		System.out.println("test case 1");
+		readMap("test case 1");
 		
 	}
 	
@@ -21,16 +22,26 @@ public class p2 {
 			int numRooms = scanner.nextInt();
 			
 			int rowIndex = 0;
-			
+			int aRow=0;
+			int aCol=0;
 			while(scanner.hasNextLine()) {
 				String row = scanner.nextLine();
 				if(row.length()>0) {
 					for(int i = 0; i<numCols && i< row.length(); i++) {
 						char el = row.charAt(i);
 						Tile obj = new Tile(rowIndex, i, el);
+						System.out.println(el);
+						if(obj.getType()=='W') {
+							aRow= obj.getRow();
+							aCol = obj.getCol();
+							
+						}
+						rowIndex++;
 					}
+					
 				}
 			}
+			System.out.println(aRow+ " "+ aCol);
 		} catch (FileNotFoundException e) {
 			System.out.println(e);
 		}
