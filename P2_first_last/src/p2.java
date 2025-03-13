@@ -8,6 +8,7 @@ public class p2 {
 		// TODO Auto-generated method stub
 		System.out.println("test case 1");
 		readMap("test case 1");
+		
 	}
 	
 	public static void readMap(String filename) {
@@ -15,7 +16,7 @@ public class p2 {
 		try {
 			File file = new File(filename);
 			Scanner scanner = new Scanner(file);
-			
+			Queue<Tile> queue = new Queue<Tile>();
 			int numRows = scanner.nextInt();
 			int numCols = scanner.nextInt();
 			int numRooms = scanner.nextInt();
@@ -42,6 +43,9 @@ public class p2 {
 							aCol = obj.getCol();
 							Tile $ = new Tile(aRow, aCol, '$');
 						}
+						if(obj.getType()=='.') {
+							queue.enqueue(obj);
+						}
 						map.addItem(rowIndex, i, roomNum, obj);
 					}
 					rowIndex++;
@@ -53,12 +57,6 @@ public class p2 {
 		} catch (FileNotFoundException e) {
 			System.out.println(e);
 		}
-	
-		
-		
-		
-		
-		
 	}
 	
 	
