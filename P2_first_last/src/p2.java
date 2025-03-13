@@ -8,7 +8,6 @@ public class p2 {
 		// TODO Auto-generated method stub
 		System.out.println("test case 1");
 		readMap("test case 1");
-		
 	}
 	
 	public static void readMap(String filename) {
@@ -22,6 +21,7 @@ public class p2 {
 			int numRooms = scanner.nextInt();
 			Map map = new Map(new Tile[numRows][numCols][numRooms]);
 			int rowIndex = 0;
+			int roomNum = 0;
 			int aRow=0;
 			int aCol=0;
 			while(scanner.hasNextLine()) {
@@ -31,7 +31,7 @@ public class p2 {
 						char el = row.charAt(i);
 						Tile obj = new Tile(rowIndex, i, el);
 						//obj = map[rowIndex][i][1];
-						System.out.println(el);
+						//System.out.println(el);
 						if(obj.getType()=='W') {
 							aRow= obj.getRow();
 							aCol = obj.getCol();
@@ -42,12 +42,13 @@ public class p2 {
 							aCol = obj.getCol();
 							Tile $ = new Tile(aRow, aCol, '$');
 						}
-						
+						map.addItem(rowIndex, i, roomNum, obj);
 					}
 					rowIndex++;
 				}
 			}
-			System.out.println(aRow+ " "+ aCol);
+			//System.out.println(aRow+ " "+ aCol);
+			System.out.println(map.toString());
 			scanner.close();
 		} catch (FileNotFoundException e) {
 			System.out.println(e);
