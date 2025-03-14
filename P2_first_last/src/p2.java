@@ -9,6 +9,7 @@ public class p2 {
 		
 		System.out.println("test case 1");
 		readMap("test case 1");
+		System.out.println(search(queue.dequeue()));
 		
 	}
 	static int numRow = 0;
@@ -16,6 +17,7 @@ public class p2 {
 	static int numRoom = 0;
 	static Queue<Tile> queue = null;
 	static Map map = null;
+	
 	public static void readMap(String filename) {
 			
 		try {
@@ -124,18 +126,37 @@ public class p2 {
 			East = map.getTile(temp.getRow(),temp.getCol()+1,temp.getRoom());
 			System.out.println(East.getType());
 		}
-		
-		if(North.getType()=='.') {
+		// enqueue the next '.'s.
+		if(North != null && North.getType()=='.') {
 			queue.enqueue(North);
-		}else if(South.getType()=='.') {
+		}
+		if(South != null && South.getType()=='.') {
 			queue.enqueue(South);
-		}else if(East.getType()=='.') {
+		}
+		if(East != null && East.getType()=='.') {
 			queue.enqueue(East);
-		}else if(West.getType()=='.') {
+		}
+		if(West != null && West.getType()=='.') {
 			queue.enqueue(West);
 		}
-		queue.toString();
-		return temp;
+		// checks if any of them has $
+		if(North != null && North.getType()=='$') {
+			System.out.println(North);
+			return North;
+		}
+		if(South!= null && South.getType()=='$') {
+			System.out.println(South);
+			return South;
+		}
+		if(East != null && East.getType()=='$') {
+			System.out.println(East);
+			return East;
+		}
+		if(West != null && West.getType()=='$') {
+			System.out.println(West);
+			return West;
+		}
+		return null;
 	}
 	
 	
