@@ -18,6 +18,10 @@ public class Map {
 		this.map = map;
 	}
 	
+	public Tile getTile(int row, int col, int room) {
+		return map[row][col][room];
+	}
+	
 	public String toString() {
 		String result = "";
 		for(int i = 0; i<map[0][0].length; i++) {

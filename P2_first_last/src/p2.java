@@ -25,27 +25,29 @@ public class p2 {
 			int roomNum = 0;
 			int aRow=0;
 			int aCol=0;
+			Tile W = null;
 			while(scanner.hasNextLine()) {
 				String row = scanner.nextLine();
 				if(row.length()>0) {
 					for(int i = 0; i<numCols && i< row.length(); i++) {
 						char el = row.charAt(i);
-						Tile obj = new Tile(rowIndex, i, el);
+						Tile obj = new Tile(rowIndex, i, 0, el);
 						//obj = map[rowIndex][i][1];
 						//System.out.println(el);
 						if(obj.getType()=='W') {
 							aRow= obj.getRow();
 							aCol = obj.getCol();
-							Tile W = new Tile(aRow, aCol, 'W');
+							 W = new Tile(aRow, aCol, 0,  'W');
+							//queue.enqueue(W);
 						}
 						if(obj.getType()=='$') {
 							aRow= obj.getRow();
 							aCol = obj.getCol();
-							Tile $ = new Tile(aRow, aCol, '$');
+							Tile $ = new Tile(aRow, aCol, 0,  '$');
 						}
-						if(obj.getType()=='.') {
-							queue.enqueue(obj);
-						}
+//						if(obj.getType()=='.') {
+//							queue.enqueue(obj);
+//						}
 						map.addItem(rowIndex, i, roomNum, obj);
 					}
 					rowIndex++;
@@ -53,13 +55,44 @@ public class p2 {
 			}
 			//System.out.println(aRow+ " "+ aCol);
 			System.out.println(map.toString());
-			scanner.close();
+			//while(1<2) {
+				Tile North = null;
+				Tile South = null;
+				Tile West = null;
+				Tile East = null;
+				if(W.getRow()>=1) {
+					North = map.getTile(W.getRow()-1,W.getCol(),W.getRoom());
+					System.out.println(North.getType());
+				}
+				if(W.getRow()< numRows) {
+					South = map.getTile(W.getRow()+1,W.getCol(),W.getRoom());
+					System.out.println(South.getType());
+				}
+				if(W.getCol() >= 1) {
+					West = map.getTile(W.getRow(),W.getCol()-1,W.getRoom());
+					System.out.println(West.getType());
+				}
+				if(W.getCol()<numCols) {
+					East = map.getTile(W.getRow(),W.getCol()+1,W.getRoom());
+					System.out.println(East.getType());
+				}
+				
+				if(North.getType()=='.') {
+					queue.enqueue(North);
+				}else if(South.getType()=='.') {
+					queue.enqueue(South);
+				}else if(East.getType()=='.') {
+					queue.enqueue(East);
+				}else if(West.getType()=='.') {
+					queue.enqueue(West);
+				}
+				queue.toString();
+				
+			//}
 		} catch (FileNotFoundException e) {
 			System.out.println(e);
 		}
 	}
-	
-	
 	
 	
 	
