@@ -1,10 +1,16 @@
 
 public class Map {
 	private Tile[][][] map;
+	private int row;
+	private int col;
+	private int room;
 
 	public Map(Tile[][][] map) {
 		super();
 		this.map = map;
+		row = map.length;
+		col = map[0].length;
+		room = map[0][0].length;
 	}
 
 	public Tile[][][] getMap() {
@@ -12,6 +18,7 @@ public class Map {
 	}
 	public void addItem(int row, int col, int room, Tile temp) {
 		map[row][col][room]= temp; 
+		
 	}
 
 	public void setMap(Tile[][][] map) {
@@ -33,6 +40,30 @@ public class Map {
 			}
 		}
 		return result;
+	}
+
+	public int getRow() {
+		return row;
+	}
+
+	public void setRow(int row) {
+		this.row = row;
+	}
+
+	public int getCol() {
+		return col;
+	}
+
+	public void setCol(int col) {
+		this.col = col;
+	}
+
+	public int getRoom() {
+		return room;
+	}
+
+	public void setRoom(int room) {
+		this.room = room;
 	}
 	
 	

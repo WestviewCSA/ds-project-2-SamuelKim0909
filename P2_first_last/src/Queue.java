@@ -58,7 +58,6 @@ public class Queue<S> {
 			result +=dequeue()+"";
 		}
 		result+= "]";
-		System.out.println(result);
 		return result;
 	}
 	
