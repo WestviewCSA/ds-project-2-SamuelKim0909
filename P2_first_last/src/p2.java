@@ -7,8 +7,8 @@ public class p2 {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		System.out.println("test case 1");
-		readMap("test case 1");
+		System.out.println("test case 2");
+		readMap("test case 2");
 	}
 	static int numRow = 0;
 	static int numCol = 0;
@@ -120,15 +120,19 @@ public class p2 {
 		}
 		//enqueue
 		if(north.getType()=='.'){
+			north.setType('+');
 			queue.enqueue(north);
 		}
 		if(south.getType()=='.'){
+			south.setType('+');
 			queue.enqueue(south);
 		}
 		if(east.getType()=='.'){
+			east.setType('+');
 			queue.enqueue(east);
 		}
 		if(west.getType()=='.'){
+			west.setType('+');
 			queue.enqueue(west);
 		}
 		//identifies which one is $ or |
@@ -141,6 +145,7 @@ public class p2 {
 		}else if (west.getType()==('$')||west.getType()==('|')){
 			return west;
 		}else {
+			System.out.println(map.toString());
 			return search(queue.dequeue());
 		}
 	}
