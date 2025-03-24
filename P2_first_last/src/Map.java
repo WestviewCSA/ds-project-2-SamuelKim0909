@@ -29,6 +29,10 @@ public class Map {
 		return map[row][col][room];
 	}
 	
+	public void setTile(int row, int col, int room, Tile temp) {
+		map[row][col][room] = temp;
+	}
+	
 	public String toString() {
 		String result = "";
 		for(int i = 0; i<map[0][0].length; i++) {

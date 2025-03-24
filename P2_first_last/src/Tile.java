@@ -1,9 +1,13 @@
+import java.util.ArrayList;
 
 public class Tile {
 	private int row, col, room;
+	private Tile parent;
+	public ArrayList<Tile> parents = new ArrayList<Tile>();
 	public int getRoom() {
 		return room;
 	}
+	
 	public void setRoom(int room) {
 		this.room = room;
 	}
@@ -15,6 +19,7 @@ public class Tile {
 		this.col = col;
 		this.room = room;
 		this.type = type;
+		parent = null;
 	}
 	public int getRow() {
 		return row;
@@ -37,4 +42,14 @@ public class Tile {
 	public String toString() {
 		return "(" + getRow() + "," + getCol()+")";
 	}
+	
+	public void setParent(Tile padre) {
+		parents.add(padre);
+		System.out.println(parents.toString());
+	}
+	
+	public ArrayList getParents() {
+		return parents;
+	}
+	
 }

@@ -56,35 +56,39 @@ public class p2 {
 					rowIndex++;
 				}
 			}
-			System.out.println(map.toString());
+			//System.out.println(map.toString());
 				Tile North = null;
 				Tile South = null;
 				Tile West = null;
 				Tile East = null;
 				if(W.getRow()>=1) {
 					North = map.getTile(W.getRow()-1,W.getCol(),W.getRoom());
-					System.out.println("North "+North.getType());
+					//System.out.println("North "+North.getType());
 				}
 				if(W.getRow()< numRows) {
 					South = map.getTile(W.getRow()+1,W.getCol(),W.getRoom());
-					System.out.println("South "+South.getType());
+					//System.out.println("South "+South.getType());
 				}
 				if(W.getCol() >= 1) {
 					West = map.getTile(W.getRow(),W.getCol()-1,W.getRoom());
-					System.out.println("West "+West.getType());
+					//System.out.println("West "+West.getType());
 				}
 				if(W.getCol()<numCols) {
 					East = map.getTile(W.getRow(),W.getCol()+1,W.getRoom());
-					System.out.println("East "+East.getType());
+					//System.out.println("East "+East.getType());
 				}
 				
-				if(North.getType()=='.') {
+				
+				if(North!= null&& North.getType()=='.') {
 					queue.enqueue(North);
-				}else if(South.getType()=='.') {
+				}
+				if(South!= null&& South.getType()=='.') {
 					queue.enqueue(South);
-				}else if(East.getType()=='.') {
+				}
+				if(East!= null&& East.getType()=='.') {
 					queue.enqueue(East);
-				}else if(West.getType()=='.') {
+				}
+				if(West!= null&& West.getType()=='.') {
 					queue.enqueue(West);
 				}
 				//System.out.println("queue tostring " + queue.toString());
@@ -119,33 +123,52 @@ public class p2 {
 			//System.out.println("second East "+east.getType());
 		}
 		//enqueue
-		if(north.getType()=='.'){
+		if(north != null&& north.getType()=='.'){
 			north.setType('+');
 			queue.enqueue(north);
+			if(!north.parents.contains(start)) {
+				north.setParent(start);
+			}
 		}
-		if(south.getType()=='.'){
+		if(south != null&&south.getType()=='.'){
 			south.setType('+');
 			queue.enqueue(south);
+			if(!south.parents.contains(start)) {
+				south.setParent(start);
+			}
 		}
-		if(east.getType()=='.'){
+		if(east != null&&east.getType()=='.'){
 			east.setType('+');
 			queue.enqueue(east);
+			if(!east.parents.contains(start)) {
+				east.setParent(start);
+			}
 		}
-		if(west.getType()=='.'){
+		if(west != null&&west.getType()=='.'){
 			west.setType('+');
 			queue.enqueue(west);
+			if(!west.parents.contains(start)) {
+				west.setParent(start);
+			}
 		}
 		//identifies which one is $ or |
-		if(north.getType()==('$')||north.getType()==('|')){
+		if(north != null&&north.getType()==('$')||north.getType()==('|')){
+			System.out.println(map.toString());
+			System.out.println(north.getParents());
 			return north;
-		}else if (south.getType()==('$')||south.getType()==('|')){
+		}else if (south != null&&south.getType()==('$')||south.getType()==('|')){
+			System.out.println(map.toString());
+			System.out.println(south.getParents());
 			return south;
-		}else if (east.getType()==('$')||east.getType()==('|')){
+		}else if (east != null&&east.getType()==('$')||east.getType()==('|')){
+			System.out.println(map.toString());
+			System.out.println(east.getParents());
 			return east;
-		}else if (west.getType()==('$')||west.getType()==('|')){
+		}else if (west != null&&west.getType()==('$')||west.getType()==('|')){
+			System.out.println(map.toString());
+			System.out.println(west.getParents());
 			return west;
 		}else {
-			System.out.println(map.toString());
 			return search(queue.dequeue());
 		}
 	}
