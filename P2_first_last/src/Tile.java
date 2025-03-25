@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class Tile {
 	private int row, col, room;
 	private Tile parent;
-	public ArrayList<Tile> parents = new ArrayList<Tile>();
+	public ArrayList<Tile> parents;
 	public int getRoom() {
 		return room;
 	}
@@ -20,6 +20,7 @@ public class Tile {
 		this.room = room;
 		this.type = type;
 		parent = null;
+		parents = new ArrayList<Tile>();
 	}
 	public int getRow() {
 		return row;
@@ -44,12 +45,27 @@ public class Tile {
 	}
 	
 	public void setParent(Tile padre) {
+		for(int i = 0; i<padre.getParents().size(); i++) {
+			parents.add(padre.getParents().get(i));
+		}
 		parents.add(padre);
-		System.out.println(parents.toString());
+		System.out.println("setParent" +parents.toString());
 	}
 	
-	public ArrayList getParents() {
+	public ArrayList<Tile> getParents() {
 		return parents;
+	}
+	
+	public String ParentsToString() {
+		String result = "";
+		for(int i = 0; i<parents.size(); i++) {
+			result+= "[" + parents.get(i)+"] ";
+		}
+		if(result.length() == 0) {
+			return "nothing";
+		}else {
+			return result;
+		}
 	}
 	
 }

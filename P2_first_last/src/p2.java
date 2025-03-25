@@ -7,8 +7,8 @@ public class p2 {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		System.out.println("test case 2");
-		readMap("test case 2");
+		System.out.println("test case 1");
+		readMap("test case 1");
 	}
 	static int numRow = 0;
 	static int numCol = 0;
@@ -19,6 +19,7 @@ public class p2 {
 	public static void readMap(String filename) {
 			
 		try {
+			ArrayList<Tile> parent = new ArrayList<Tile>();
 			File file = new File(filename);
 			Scanner scanner = new Scanner(file);
 			queue = new Queue<Tile>();
@@ -100,6 +101,8 @@ public class p2 {
 	}
 	
 	
+	
+	
 	public static Tile search(Tile start) {
 		Tile north = null;
 		Tile south = null;
@@ -110,7 +113,7 @@ public class p2 {
 			north = map.getTile(start.getRow()-1, start.getCol(), start.getRoom());
 			//System.out.println("second North "+north.getType());
 		}
-		if(start.getRow()< map.getRow()) {
+		if(start.getRow()< map.getRow()-1) {
 			south = map.getTile(start.getRow()+1,start.getCol(),start.getRoom());
 			//System.out.println("second South "+south.getType());
 		}
@@ -118,60 +121,114 @@ public class p2 {
 			west = map.getTile(start.getRow(),start.getCol()-1,start.getRoom());
 			//System.out.println("second West "+west.getType());
 		}
-		if(start.getCol()<map.getCol()) {
+		if(start.getCol()<map.getCol()-1) {
 			east = map.getTile(start.getRow(),start.getCol()+1,start.getRoom());
 			//System.out.println("second East "+east.getType());
 		}
 		//enqueue
 		if(north != null&& north.getType()=='.'){
-			north.setType('+');
+			north.setType('=');
 			queue.enqueue(north);
-			if(!north.parents.contains(start)) {
-				north.setParent(start);
-			}
+			north.setParent(start);
 		}
 		if(south != null&&south.getType()=='.'){
-			south.setType('+');
+			south.setType('=');
 			queue.enqueue(south);
-			if(!south.parents.contains(start)) {
-				south.setParent(start);
-			}
+			south.setParent(start);
 		}
 		if(east != null&&east.getType()=='.'){
-			east.setType('+');
+			east.setType('=');
 			queue.enqueue(east);
-			if(!east.parents.contains(start)) {
-				east.setParent(start);
-			}
+			east.setParent(start);
 		}
 		if(west != null&&west.getType()=='.'){
-			west.setType('+');
+			west.setType('=');
 			queue.enqueue(west);
-			if(!west.parents.contains(start)) {
-				west.setParent(start);
-			}
+			west.setParent(start);
 		}
 		//identifies which one is $ or |
 		if(north != null&&north.getType()==('$')||north.getType()==('|')){
+			north.setParent(start);
+			for(int i = 0; i<north.getParents().size(); i++) {
+				int row = north.getParents().get(i).getRow();
+				int col = north.getParents().get(i).getCol();
+				int room = north.getParents().get(i).getRoom();
+				map.getTile(row, col, room).setType('+');
+			}
+			for(int i = 0; i<map.getRoom(); i++) {
+				for(int k = 0; k<map.getRow(); k++) {
+					for(int j = 0; j<map.getCol(); j++) {
+						if(map.getTile(k,j,i).getType()== '=') {
+							map.getTile(k,j,i).setType('.');
+						}
+					}
+				}
+			}
 			System.out.println(map.toString());
-			System.out.println(north.getParents());
 			return north;
 		}else if (south != null&&south.getType()==('$')||south.getType()==('|')){
+			south.setParent(start);
+			for(int i = 0; i<south.getParents().size(); i++) {
+				int row = south.getParents().get(i).getRow();
+				int col = south.getParents().get(i).getCol();
+				int room = south.getParents().get(i).getRoom();
+				map.getTile(row, col, room).setType('+');
+			}
+			for(int i = 0; i<map.getRoom(); i++) {
+				for(int k = 0; k<map.getRow(); k++) {
+					for(int j = 0; j<map.getCol(); j++) {
+						if(map.getTile(k,j,i).getType()== '=') {
+							map.getTile(k,j,i).setType('.');
+						}
+					}
+				}
+			}
+			
 			System.out.println(map.toString());
-			System.out.println(south.getParents());
 			return south;
 		}else if (east != null&&east.getType()==('$')||east.getType()==('|')){
+			east.setParent(start);
+			for(int i = 0; i<east.getParents().size(); i++) {
+				int row = east.getParents().get(i).getRow();
+				int col = east.getParents().get(i).getCol();
+				int room = east.getParents().get(i).getRoom();
+				map.getTile(row, col, room).setType('+');
+			}
+			for(int i = 0; i<map.getRoom(); i++) {
+				for(int k = 0; k<map.getRow(); k++) {
+					for(int j = 0; j<map.getCol(); j++) {
+						if(map.getTile(k,j,i).getType()== '=') {
+							map.getTile(k,j,i).setType('.');
+						}
+					}
+				}
+			}
 			System.out.println(map.toString());
-			System.out.println(east.getParents());
 			return east;
 		}else if (west != null&&west.getType()==('$')||west.getType()==('|')){
+			west.setParent(start);
+			for(int i = 0; i<west.getParents().size(); i++) {
+				int row = west.getParents().get(i).getRow();
+				int col = west.getParents().get(i).getCol();
+				int room = west.getParents().get(i).getRoom();
+				map.getTile(row, col, room).setType('+');
+			}
+			for(int i = 0; i<map.getRoom(); i++) {
+				for(int k = 0; k<map.getRow(); k++) {
+					for(int j = 0; j<map.getCol(); j++) {
+						if(map.getTile(k,j,i).getType()== '=') {
+							map.getTile(k,j,i).setType('.');
+						}
+					}
+				}
+			}
 			System.out.println(map.toString());
-			System.out.println(west.getParents());
 			return west;
 		}else {
 			return search(queue.dequeue());
 		}
 	}
+	
 	
 	
 	
