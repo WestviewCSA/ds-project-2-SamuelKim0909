@@ -7,8 +7,8 @@ public class p2 {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		System.out.println("test case 1");
-		readMap("test case 1");
+		System.out.println("test case 5");
+		readMap("test case 3");
 	}
 	static int numRow = 0;
 	static int numCol = 0;
@@ -141,7 +141,7 @@ public class p2 {
 			queue.enqueue(east);
 			east.setParent(start);
 		}
-		if(west != null&&west.getType()=='.'){
+		if(west != null && west.getType()=='.'){
 			west.setType('=');
 			queue.enqueue(west);
 			west.setParent(start);
@@ -205,7 +205,7 @@ public class p2 {
 			}
 			System.out.println(map.toString());
 			return east;
-		}else if (west != null&&west.getType()==('$')||west.getType()==('|')){
+		}else if (west != null && west.getType()==('$')||west.getType()==('|')){
 			west.setParent(start);
 			for(int i = 0; i<west.getParents().size(); i++) {
 				int row = west.getParents().get(i).getRow();
