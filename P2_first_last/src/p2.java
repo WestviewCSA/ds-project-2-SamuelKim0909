@@ -6,9 +6,8 @@ import java.util.Scanner;
 public class p2 {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		
-		System.out.println("test case 5");
-		readMap("test case 3");
+		System.out.println("test case 3");
+		readMapQueue("test case 3");
 	}
 	static int numRow = 0;
 	static int numCol = 0;
@@ -16,10 +15,9 @@ public class p2 {
 	static Queue<Tile> queue = null;
 	static Map map = null;
 	
-	public static void readMap(String filename) {
+	public static void readMapQueue(String filename) {
 			
 		try {
-			ArrayList<Tile> parent = new ArrayList<Tile>();
 			File file = new File(filename);
 			Scanner scanner = new Scanner(file);
 			queue = new Queue<Tile>();
@@ -29,34 +27,53 @@ public class p2 {
 			numRow = numRows;
 			numCol = numCols;
 			numRoom = numRooms;
-			map = new Map(new Tile[numRows][numCols][numRooms]);
-			int rowIndex = 0;
-			int roomNum = 0;
-			int aRow=0;
-			int aCol=0;
-			Tile W = null;
 			while(scanner.hasNextLine()) {
 				String row = scanner.nextLine();
 				if(row.length()>0) {
-					for(int i = 0; i<numCols && i< row.length(); i++) {
-						char el = row.charAt(i);
-						Tile obj = new Tile(rowIndex, i, 0, el);
-						if(obj.getType()=='W') {
-							aRow= obj.getRow();
-							aCol = obj.getCol();
-							 W = new Tile(aRow, aCol, 0,  'W');
-							//queue.enqueue(W);
+					
+				}
+				map = new Map(new Tile[numRows][numCols][numRooms]);
+				for(int r = 0; r<numRows; r++) {
+					for(int c = 0; c<numCols; c++) {
+						for(int ro = 0; ro<numRooms; ro++) {
+							map.addItem(numRows, numCols, numRooms, null);
 						}
-						if(obj.getType()=='$') {
-							aRow= obj.getRow();
-							aCol = obj.getCol();
-							Tile $ = new Tile(aRow, aCol, 0,  '$');
-						}
-						map.addItem(rowIndex, i, roomNum, obj);
 					}
-					rowIndex++;
 				}
 			}
+			
+//			int rowIndex = 0;
+//			int roomNum = 0;
+//			int aRow=0;
+//			int aCol=0;
+//			int eachRoomRow = numCol/numRoom;
+//			Tile W = null;
+//			while(scanner.hasNextLine()) {
+//				for(int roomCount = 0; roomCount<eachRoomRow; roomCount++){
+//					String row = scanner.nextLine();
+//					if(row.length()>0) {
+//						for(int i = 0; i<numCols && i< row.length(); i++) {
+//							char el = row.charAt(i);
+//							Tile obj = new Tile(rowIndex, i, roomNum, el);
+//							if(obj.getType()=='W') {
+//								aRow= obj.getRow();
+//								aCol = obj.getCol();
+//								W = new Tile(aRow, aCol, roomNum,  'W');
+//								//queue.enqueue(W);
+//							}
+//							if(obj.getType()=='$') {
+//								aRow= obj.getRow();
+//								aCol = obj.getCol();
+//								Tile $ = new Tile(aRow, aCol, roomNum,  '$');
+//							}
+//							map.addItem(rowIndex, i, roomNum, obj);
+//						}
+//						rowIndex++;
+//					}
+//				}
+//				roomNum++;
+//			}
+			System.out.println(map.test());
 			//System.out.println(map.toString());
 				Tile North = null;
 				Tile South = null;
@@ -93,7 +110,10 @@ public class p2 {
 					queue.enqueue(West);
 				}
 				//System.out.println("queue tostring " + queue.toString());
-				System.out.println("search " +search(queue.dequeue()));
+				if(numRoom > 1) {
+					System.out.println();
+				}
+				System.out.println("search " +search(queue.dequeue(), '$'));
 			//}
 		} catch (FileNotFoundException e) {
 			System.out.println(e);
@@ -103,7 +123,7 @@ public class p2 {
 	
 	
 	
-	public static Tile search(Tile start) {
+	public static Tile search(Tile start, char goal) {
 		Tile north = null;
 		Tile south = null;
 		Tile east = null;
@@ -146,8 +166,8 @@ public class p2 {
 			queue.enqueue(west);
 			west.setParent(start);
 		}
-		//identifies which one is $ or |
-		if(north != null&&north.getType()==('$')||north.getType()==('|')){
+		//identifies which one is $
+		if(north != null&&north.getType()==(goal)){
 			north.setParent(start);
 			for(int i = 0; i<north.getParents().size(); i++) {
 				int row = north.getParents().get(i).getRow();
@@ -166,7 +186,7 @@ public class p2 {
 			}
 			System.out.println(map.toString());
 			return north;
-		}else if (south != null&&south.getType()==('$')||south.getType()==('|')){
+		}else if (south != null&&south.getType()==(goal)){
 			south.setParent(start);
 			for(int i = 0; i<south.getParents().size(); i++) {
 				int row = south.getParents().get(i).getRow();
@@ -186,7 +206,7 @@ public class p2 {
 			
 			System.out.println(map.toString());
 			return south;
-		}else if (east != null&&east.getType()==('$')||east.getType()==('|')){
+		}else if (east != null&&east.getType()==(goal)){
 			east.setParent(start);
 			for(int i = 0; i<east.getParents().size(); i++) {
 				int row = east.getParents().get(i).getRow();
@@ -205,7 +225,7 @@ public class p2 {
 			}
 			System.out.println(map.toString());
 			return east;
-		}else if (west != null && west.getType()==('$')||west.getType()==('|')){
+		}else if (west != null && west.getType()==(goal)){
 			west.setParent(start);
 			for(int i = 0; i<west.getParents().size(); i++) {
 				int row = west.getParents().get(i).getRow();
@@ -225,8 +245,10 @@ public class p2 {
 			System.out.println(map.toString());
 			return west;
 		}else {
-			return search(queue.dequeue());
+			return search(queue.dequeue(), goal);
 		}
+		
+		
 	}
 	
 	

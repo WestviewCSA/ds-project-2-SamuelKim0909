@@ -70,8 +70,23 @@ public class Map {
 		this.room = room;
 	}
 	
+	public int[][][] splitFirst(){
+		
+		return null;
+	}
 	
-	
+	public String test() {
+		String result = "";
+		//for(int room = 0; room<map[0][0].length; room++) {
+			for(int Row = 0; Row<map.length; Row++) {
+				for(int Col = 0; Col<map[0].length; Col++) {
+					result+= map[Row][Col][2].getType() + " ";
+				}
+				result+= "\n";
+			}
+		//}
+		return result;
+	}
 	
 	
 }
