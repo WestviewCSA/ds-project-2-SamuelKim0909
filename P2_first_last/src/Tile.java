@@ -4,29 +4,18 @@ public class Tile {
 	private int row, col, room;
 	private Tile parent;
 	public ArrayList<Tile> parents;
-	public int getRoom() {
-		return room;
-	}
-	
-	public void setRoom(int room) {
-		this.room = room;
-	}
 	private char type;
 	
 	public Tile(int row, int col, int room, char type) {
-		super();
 		this.row = row;
 		this.col = col;
 		this.room = room;
 		this.type = type;
-		parent = null;
-		parents = new ArrayList<Tile>();
+		this.parent = null;
 	}
+	
 	public int getRow() {
 		return row;
-	}
-	public void setRow(int row) {
-		this.row = row;
 	}
 	public int getCol() {
 		return col;
@@ -40,16 +29,9 @@ public class Tile {
 	public void setType(char type) {
 		this.type = type;
 	}
-	public String toString() {
-		return "(" + getRow() + "," + getCol()+")";
-	}
 	
-	public void setParent(Tile padre) {
-		for(int i = 0; i<padre.getParents().size(); i++) {
-			parents.add(padre.getParents().get(i));
-		}
-		parents.add(padre);
-		System.out.println("setParent" +parents.toString());
+	public void setParent(Tile parent) {
+		this.parent = parent;
 	}
 	
 	public ArrayList<Tile> getParents() {
@@ -67,5 +49,24 @@ public class Tile {
 			return result;
 		}
 	}
+	public int getRoom() {
+		return room;
+	}
 	
+	public void setRoom() {
+		this.room = room;
+	}
+	
+	public void serParent(Tile parent) {
+		this.parent = parent;
+	}
+	
+	public Tile getParent() {
+		return parent;
+	}
+	
+	@Override
+	public String toString() {
+		return "(" + row+"," + col+","+type +")";
+	}
 }
