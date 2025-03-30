@@ -45,6 +45,10 @@ public class Queue<S> {
 		}
 		return temp;
 	}
+
+	public boolean isEmpty() {
+		return stackS.isEmpty();
+	}
 	
 	public int size() {
 		return stackS.size();

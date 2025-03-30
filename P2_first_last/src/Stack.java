@@ -10,6 +10,10 @@ public class Stack<z>{
 	
 	}
 	
+	public ArrayList<z> getData(){
+		return data;
+	}
+	
 	public void push(z el) {
 		data.add(el);
 	}
