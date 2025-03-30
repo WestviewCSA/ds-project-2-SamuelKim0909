@@ -7,20 +7,59 @@ public class p2 {
 	static int roomCount;
 	static int rowNum;
     static Map map = null;
-    static boolean useStack;
-    static boolean useQueue;
-    static boolean useOpt;
-    static boolean coordinateIn;
-    static boolean coordinateOut;
+    static boolean useStack = false;
+    static boolean useQueue = false;
+    static boolean useOpt = false;
+    static boolean printTime = false;
+    static boolean inputCoordinate = false;
+    static boolean outputCoordinate = false;
+    static boolean extraCredit = false;
+    
     public static void main(String[] args) {
-        useStack = false;
-        useQueue = true;
-        useOpt = false;
-        coordinateIn = true;
-        coordinateOut = false;
-        System.out.println("test case 1");
-        readMap("test case 10");
+        try {
+            processCommandLineArgs(args);
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error: " + e.getMessage());
+            System.exit(-1);
+        } 
     }
+//arguration
+    public static void processCommandLineArgs(String[] args) throws IllegalArgumentException{
+        String filename = null;
+        for (String arg : args) {
+            switch (arg) {
+                case "--Stack": useStack = true; break;
+                case "--Queue": useQueue = true; break;
+                case "--Opt": useOpt = true; break;
+                case "--Time": printTime = true; break;
+                case "--Incoordinate": inputCoordinate = true; break;
+                case "--Outcoordinate": outputCoordinate = true; break;
+                case "--Help": printHelp(); System.exit(0); break;
+                case "--EC": extraCredit = true; break;
+                default:
+                    if (arg.startsWith("--")) {
+                        throw new IllegalArgumentException("Invalid command line argument: " + arg);
+                    }
+                    filename = arg;
+                    break;
+            }
+        }
+
+        if (filename == null) {
+            throw new IllegalArgumentException("Missing filename");
+        }
+
+        int algorithmCount = 0;
+        if (useStack) algorithmCount++;
+        if (useQueue) algorithmCount++;
+        if (useOpt) algorithmCount++;
+
+        if (algorithmCount != 1) {
+            throw new IllegalArgumentException("Exactly one of --Stack, --Queue, or --Opt must be specified");
+        }
+        readMap(filename);
+    }
+// map input
     public static void readMap(String filename) {
         try {
             File file = new File(filename);
@@ -34,7 +73,7 @@ public class p2 {
             map = new Map(new Tile[numRows][numCols][numRooms]);
             scanner.nextLine();
 
-            if (coordinateIn == true) {
+            if (inputCoordinate == true) {
                 while (scanner.hasNextLine()) {
                     String line = scanner.nextLine();
                     String[] parts = line.split(" ");
@@ -74,10 +113,11 @@ public class p2 {
             findPathOpt();
         }
         double time2 = System.nanoTime();
-        System.out.println("Total Runtime: " + (time2 - time1) / 1e9 + " seconds");
-        
+        if (printTime) {
+            System.out.println("Total Runtime: " + (time2 - time1) / 1e9 + " seconds");
+        }        
     }
-
+// all '=' to '.'
     public static void resetMap() {
         for (int room = 0; room < map.getRoom(); room++) {
             for (int row = 0; row < map.getRow(); row++) {
@@ -117,7 +157,7 @@ public class p2 {
             System.out.println("The Wolverine Store is closed.");
         }
     }
-
+//North South East West to Stack
     public static void addNeighborsToStack(Stack<Tile> stack, Tile current) {
         int[][] directions = { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } };
         for (int[] direction : directions) {
@@ -167,6 +207,7 @@ public class p2 {
         }
     }
     
+    // North South East West into queue;
     public static void addNeighborsToQueue(Queue<Tile> queue, Tile current) {
         int[][] directions = { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } };
         for (int[] direction : directions) {
@@ -187,16 +228,16 @@ public class p2 {
         }
     }
 
-// optimal (same with stack)
+// optimal (same with queue)
     public static void findPathOpt() {
         boolean found = false;
         for (int i = 0; i < map.getRoom(); i++) {
-            Stack<Tile> stack = new Stack<>();
+            Queue<Tile> queue = new Queue<Tile>();
             Tile start = findW(i);
-            stack.push(start);
+            queue.enqueue(start);
 
-            while (!stack.isEmpty() && !found) {
-                Tile current = stack.pop();
+            while (!queue.isEmpty() && !found) {
+                Tile current = queue.dequeue();
 
                 if (current.getType() == '$' || current.getType() == '|') {
                     if (current.getType() == '$') {
@@ -208,7 +249,7 @@ public class p2 {
                     break;
                     }
                 }
-                addNeighborsToStack(stack, current);
+                addNeighborsToQueue(queue, current);
             }
         }
 
@@ -241,8 +282,9 @@ public class p2 {
         }
         return null;
     }
-  ArrayList<Tile> temp = new ArrayList<Tile>();
-   
+  //ArrayList<Tile> temp = new ArrayList<Tile>();
+    
+   // prints '+'s / coornidates
     public static void printPath(Tile end) {
     	ArrayList<Tile> temp = new ArrayList<Tile>();
         ArrayList<Tile> list = new ArrayList<Tile>();
@@ -254,7 +296,7 @@ public class p2 {
         for(int i = temp.size()-2; i>0; i--) {
         	list.add(temp.get(i));
         }
-        if (coordinateOut== true) {
+        if (outputCoordinate== true) {
             for (Tile tile : list) {
  //           	System.out.println(tile.getType() + " " + tile.getRow()  + " " +tile.getCol()  + " " +tile.getRoom());
                 //if (tile.getType() == '+') {
@@ -271,11 +313,11 @@ public class p2 {
             }
             System.out.println(map.toString());
         }
-        System.out.println("(" + end.getRow() + "," + end.getCol() + ")");
+        System.out.println("(" + (end.getRow()+ (rowNum*roomCount)) + "," + end.getCol() + ")");
     }
 //record path- same code with printPath but no System.out.println()
     public static void recordPath(Tile end) {
-    	int multiple = roomCount;
+    	//int multiple = roomCount;
     	ArrayList<Tile> temp = new ArrayList<Tile>();
         ArrayList<Tile> list = new ArrayList<Tile>();
         Tile current = end;
@@ -286,7 +328,7 @@ public class p2 {
         for(int i = temp.size()-2; i>0; i--) {
         	list.add(temp.get(i));
         }
-        if (coordinateOut== true) {
+        if (outputCoordinate== true) {
             for (Tile tile : list) {
  //           	System.out.println(tile.getType() + " " + tile.getRow()  + " " +tile.getCol()  + " " +tile.getRoom());
                 //if (tile.getType() == '+') {
@@ -303,5 +345,18 @@ public class p2 {
             }
         }
         roomCount++;
+    }
+    
+    public static void printHelp() {
+        System.out.println("Usage: java p2 [options] filename");
+        System.out.println("Options:");
+        System.out.println("  --Stack        Use stack-based algorithm");
+        System.out.println("  --Queue        Use queue-based algorithm");
+        System.out.println("  --Opt          Use optimal path algorithm");
+        System.out.println("  --Time         Print runtime");
+        System.out.println("  --Incoordinate  Input is in coordinate format");
+        System.out.println("  --Outcoordinate Output is in coordinate format");
+        System.out.println("  --Help         Print this help message");
+        System.out.println("  --EC           Enable extra credit mode");
     }
 }
