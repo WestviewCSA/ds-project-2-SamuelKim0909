@@ -28,6 +28,10 @@ public class Stack<z>{
 		return data.size();
 	}
 	
+	public boolean isEmpty() {
+		return data.isEmpty();
+	}
+	
 	public String toString() {
 		return data.toString();
 	}
